@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,13 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
         return new ResponseEntity<>(iCustomerService.save(customer), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/list")
+    public ModelAndView getAllCustomerPage() {
+        ModelAndView modelAndView = new ModelAndView("/customers/list");
+        modelAndView.addObject("customers", iCustomerService.findAll());
+        return modelAndView;
     }
 
     @PutMapping("/{id}")
